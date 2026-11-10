@@ -1,0 +1,9 @@
+{
+  "name": "@mediflow/shared",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "peerDependencies": { "react": ">=18" },
+  "scripts": { "typecheck": "tsc --noEmit -p ." }
+}

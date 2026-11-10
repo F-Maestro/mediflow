@@ -1,0 +1,12 @@
+{
+  "name": "mediflow",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "web": "npm run dev --workspace @mediflow/web",
+    "mobile": "npm run start --workspace mobile",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build:web": "npm run build --workspace @mediflow/web"
+  }
+}
