@@ -50,10 +50,11 @@ See [FRONTEND_IMPROVEMENTS.md](FRONTEND_IMPROVEMENTS.md) for implementation deta
 | Text and translations | `src/i18n.ts` |
 | Hide demo controls | `config.demoMode = false` |
 
-## Honest limits
+## Current integration and limits
 
-- **No backend yet.** Data is mock and stored on the device; the web and mobile apps do not share live state until there is a server. `src/store.ts` is the part to replace with API calls.
-- M-Pesa, SMS, push and QR scanning are simulated. The staff workspace is web only and English only.
+- Web and mobile clients use the API in `backend/` for authentication and patient, visit, appointment, and staff workflows. Local development needs PostgreSQL and the API; see [API_INTEGRATION.md](API_INTEGRATION.md) and [the backend setup guide](../backend/README.md).
+- SMS/OTP, M-Pesa and WhatsApp behavior depends on backend provider configuration; mock providers are for development only. Push and QR scanning remain simulated. The staff workspace is web only and English only.
+- A successful build and type check do not replace end-to-end checks with synthetic accounts or review on a physical phone.
 - The Kiswahili text is a first draft: have a native or medical translator review it before real use.
 - Insurance is a generic "covers X%" demo, not SHA rules. Real claims are out of scope.
-- Checked here: type checks, a logic test suite of every route, a render test of 34 web screens in both languages, a web build and an Android bundle. **Not** tested on a physical phone or in a browser window from this environment: please try it in Expo Go and report anything odd.
+- In the current local validation: frontend and mobile type checks, backend syntax check, web production build, synthetic patient registration/profile/appointment/visit requests, and synthetic nurse sign-in/triage queue call. **Not** tested on a physical phone or against live SMS, M-Pesa, or WhatsApp providers.

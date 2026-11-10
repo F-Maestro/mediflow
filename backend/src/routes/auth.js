@@ -48,7 +48,9 @@ authRouter.post('/otp/request', async (req, res) => {
   const challengeId = uuid(); const code = createOtp();
   await query(`INSERT INTO otp_challenges(id,phone_lookup_hash,purpose,code_hash,expires_at)
     VALUES($1,$2,$3,$4,now()+($5::int * interval '1 second'))`, [challengeId, phoneHash, purpose, otpHash(challengeId, code), config.otpTtlSeconds]);
-  if (exists) {
+  // New numbers must receive a code for registration and phone changes too.
+  // Keep the existence check for login and password-reset to avoid account enumeration.
+  if (exists || purpose === 'registration' || purpose === 'phone-change') {
     try { await sendOtp(phone, code, config.otpTtlSeconds); }
     catch (error) { await query('UPDATE otp_challenges SET consumed_at=now() WHERE id=$1', [challengeId]); console.error('OTP provider error:', error.message); return res.status(503).json({ error: { code: 'OTP_UNAVAILABLE', message: 'Could not send a verification code right now.' } }); }
   }
